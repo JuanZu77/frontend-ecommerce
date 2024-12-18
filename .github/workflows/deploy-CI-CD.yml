@@ -1,0 +1,70 @@
+name: CI/CD Frontend
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Install Angular CLI globally
+        run: |
+          npm install -g @angular/cli
+
+      - name: Build Angular app
+        run: |
+          ng build --configuration production
+
+      - name: Build Docker image
+        run: |
+          docker build -t frontend-app .
+
+      - name: Authenticate with Google Cloud
+        env:
+          GCP_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}  
+        run: |
+          echo "${GCP_CREDENTIALS}" > $HOME/gcp-key.json
+          gcloud auth activate-service-account --key-file=$HOME/gcp-key.json
+          gcloud auth configure-docker
+
+      - name: Set default project
+        run: |
+          gcloud config set project ecommerceapp-444719
+
+      - name: Push Docker image to Google Container Registry
+        run: |
+          docker tag frontend-app gcr.io/ecommerceapp-444719/frontend-app
+          docker push gcr.io/ecommerceapp-444719/frontend-app
+
+      - name: Deploy to Google Cloud Run
+        run: |
+          gcloud run deploy frontend-app \
+            --image gcr.io/ecommerceapp-444719/frontend-app \
+            --platform managed \
+            --region us-central1 \
+            --allow-unauthenticated \
+            --project ecommerceapp-444719
+
+      - name: Grant public access to the service
+        run: |
+         gcloud run services add-iam-policy-binding frontend-app \
+            --member="allUsers" \
+            --role="roles/run.invoker" \
+            --region us-central1 \
+            --platform managed \
+            --project ecommerceapp-444719
+
+
