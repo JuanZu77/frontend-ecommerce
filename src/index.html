@@ -6,8 +6,66 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+    .container {
+      max-width: 600px;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 0.5em;
+    }
+    p {
+      font-size: 1.2em;
+      margin: 0.5em 0;
+    }
+    .button {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 1em;
+      color: #fff;
+      background: #007bff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.3s ease;
+      margin-right: 10px;
+    }
+    .button:hover {
+      background: #0056b3;
+    }
+  </style>
+
 </head>
 <body>
+
+  <div class="container">
+    <h1>Ecommerce Full Stack</h1>
+    <p>Este proyecto utiliza integración y despliegue continuo (CI/CD)</p>
+    <p>Angular + Spring Boot + Google Cloud Run</p>
+    <p>Explora cómo la automatización simplifica el desarrollo y despliegue de aplicaciones modernas.</p>
+    <a href="https://github.com/JuanZu77/frontend-ecommerce" target="_blank" class="button">Repositorio Frontend</a>
+    <a href="https://github.com/JuanZu77/backend-ecommerce" target="_blank" class="button">Repositorio Backend</a>
+  </div>
+
   <app-root></app-root>
 </body>
 </html>
