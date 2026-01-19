@@ -28,9 +28,12 @@ export class ProductService {
     return this.httpClient.get<Product>(`${this.apiUrl}/${id}`);
   }
 
-  /*updateProduct(product: Product) {
-    return this.httpClient.put<Product>(`${this.apiUrl}/${product.id}`, product);
-  }*/
+ updateProduct(id: number, product: any) {
+  return this.httpClient.put<Product>(`${this.apiUrl}/${id}`, product);
+ }
+
+
+
 
 }
 
