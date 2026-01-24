@@ -19,6 +19,8 @@ export class ProductAddComponent implements OnInit {
   userId: string= '1';
   categoryId: string= '1';
 
+  selectedFile: File | null = null;
+
   constructor(private productService: ProductService, private router: Router, private activatedRoute: ActivatedRoute) {
 
    }
@@ -37,38 +39,32 @@ ngOnInit(): void {
 
 
 addProduct(): void {
-  if (this.id && this.id > 0) {
-    // UPDATE -> JSON (RequestBody)
-    const product = {
-      id: this.id,
-      code: this.code ?? '',
-      name: this.name ?? '',
-      description: this.description ?? '',
-      price: this.price ?? 0,
-      urlImage: this.urlImage ?? '',
-      userId: Number(this.userId),
-      categoryId: Number(this.categoryId),
-    };
 
-    this.productService.updateProduct(this.id, product).subscribe({
+  const formData = new FormData();
+  formData.append('code', this.code ?? '');
+  formData.append('name', this.name ?? '');
+  formData.append('description', this.description ?? '');
+  formData.append('price', String(this.price ?? 0));
+  formData.append('urlImage', this.urlImage ?? '');
+  formData.append('userId', String(this.userId));
+  formData.append('categoryId', String(this.categoryId));
+
+  // Solo adjuntar imagen si el usuario seleccionó una
+  if (this.selectedFile) {
+    formData.append('image', this.selectedFile, this.selectedFile.name);
+  }
+
+  if (this.id && this.id > 0) {
+    // UPDATE -> multipart/form-data
+    this.productService.updateProduct(this.id, formData).subscribe({
       next: (res) => {
         console.log('Producto actualizado:', res);
         this.router.navigate(['/admin/product']);
       },
       error: (err) => console.error('Error al actualizar:', err),
     });
-
   } else {
-    // create: dejar FormData si mantengo el POST con RequestParam
-    const formData = new FormData();
-    formData.append('code', this.code ?? '');
-    formData.append('name', this.name ?? '');
-    formData.append('description', this.description ?? '');
-    formData.append('price', String(this.price ?? 0));
-    formData.append('urlImage', this.urlImage ?? '');
-    formData.append('userId', String(this.userId));
-    formData.append('categoryId', String(this.categoryId));
-
+    // CREATE -> multipart/form-data
     this.productService.createProduct(formData).subscribe({
       next: (res) => {
         console.log('Producto creado:', res);
@@ -98,7 +94,17 @@ getProductById(id: number): void {
     },
     error: (err) => console.error('Error cargando producto', err)
   });
-}
+ }
+
+ onFileSelected(event: any): void {
+  const file: File = event.target.files[0];
+
+  if (file) {
+    this.selectedFile = file;
+  } else {
+    this.selectedFile = null;
+  }   
+  }
 
 
 }

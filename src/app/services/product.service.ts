@@ -16,9 +16,9 @@ export class ProductService {
     return this.httpClient.get<Product[]>(this.apiUrl);
   }
 
-  createProduct(formData: FormData): Observable<any> {
+  createProduct(formData: FormData) {
   return this.httpClient.post<Product>(this.apiUrl, formData);
-  }
+}
 
   deleteProduct(id: number):Observable<any> {
     return this.httpClient.delete(`${this.apiUrl}/${id}`);
@@ -28,9 +28,9 @@ export class ProductService {
     return this.httpClient.get<Product>(`${this.apiUrl}/${id}`);
   }
 
- updateProduct(id: number, product: any) {
-  return this.httpClient.put<Product>(`${this.apiUrl}/${id}`, product);
- }
+  updateProduct(id: number, formData: FormData) {
+  return this.httpClient.put<Product>(`${this.apiUrl}/${id}`, formData);
+  }
 
 
 
