@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import {ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class ProductAddComponent implements OnInit {
 
   selectedFile: File | null = null;
 
-  constructor(private productService: ProductService, private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(private productService: ProductService, private router: Router, private activatedRoute: ActivatedRoute, private toastr:ToastrService) {
 
    }
 
@@ -68,7 +69,17 @@ addProduct(): void {
     this.productService.createProduct(formData).subscribe({
       next: (res) => {
         console.log('Producto creado:', res);
+
+        //validacion Crear / Editar
+        if(this.id == 0){
+          this.toastr.success('El producto fue creado con éxito!', 'Producto Creado');
+        }
+        else{
+          this.toastr.success('El producto fue actualizado con éxito!', 'Producto Actualizado');
+        }
+     
         this.router.navigate(['/admin/product']);
+        
       },
       error: (err) => console.error('Error al crear:', err),
     });

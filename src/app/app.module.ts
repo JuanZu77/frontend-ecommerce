@@ -9,6 +9,7 @@ import { ProductListComponent } from './components/product-list/product-list.com
 import { HeaderAdminComponent } from './components/header-admin/header-admin.component';
 import { ProductAddComponent } from './components/product-add/product-add.component';
 import { FormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -21,8 +22,8 @@ import { FormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
-
+    FormsModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     provideClientHydration(),
