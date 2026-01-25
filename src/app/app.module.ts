@@ -10,6 +10,9 @@ import { HeaderAdminComponent } from './components/header-admin/header-admin.com
 import { ProductAddComponent } from './components/product-add/product-add.component';
 import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
+import { CategoryListComponent } from './components/category/category-list/category-list.component';
+import { CategoryAddComponent } from './components/category/category-add/category-add.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -17,10 +20,13 @@ import { ToastrModule } from 'ngx-toastr';
     HomeComponent,
     ProductListComponent,
     HeaderAdminComponent,
-    ProductAddComponent
+    ProductAddComponent,
+    CategoryListComponent,
+    CategoryAddComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
     ToastrModule.forRoot()

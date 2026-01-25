@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import {ToastrService } from 'ngx-toastr';
+import { Category } from '../../common/category';
+import { CategoryService } from '../../services/category.service';
+import { get } from 'http';
 
 
 @Component({
@@ -22,12 +25,14 @@ export class ProductAddComponent implements OnInit {
 
   selectedFile: File | null = null;
 
-  constructor(private productService: ProductService, private router: Router, private activatedRoute: ActivatedRoute, private toastr:ToastrService) {
+  //agregar categorias
+  categories : Category[] = [];
 
-   }
+  constructor(private productService: ProductService, private categoryService:CategoryService, private router: Router, private activatedRoute: ActivatedRoute, private toastr:ToastrService) {}
 
+  ngOnInit(): void {
 
-ngOnInit(): void {
+  this.getCategories();  
   const idParam = this.activatedRoute.snapshot.paramMap.get('id');
   const id = Number(idParam);
 
@@ -35,11 +40,13 @@ ngOnInit(): void {
 
   this.id = id;              // <- CLAVE
   this.getProductById(id);   // <- CLAVE (si estás editando)
+
+
 }
 
 
 
-addProduct(): void {
+ addProduct(): void {
 
   const formData = new FormData();
   formData.append('code', this.code ?? '');
@@ -107,15 +114,25 @@ getProductById(id: number): void {
   });
  }
 
- onFileSelected(event: any): void {
-  const file: File = event.target.files[0];
+    onFileSelected(event: any): void {
+      const file: File = event.target.files[0];
 
-  if (file) {
-    this.selectedFile = file;
-  } else {
-    this.selectedFile = null;
-  }   
-  }
-
+      if (file) {
+        this.selectedFile = file;
+      } else {
+        this.selectedFile = null;
+      }   
+      }
+   
+    getCategories(): void {
+      this.categoryService.getCategoriesList().subscribe({
+        next: (data) => {
+          this.categories = data;
+        },
+        error: (err) => {
+          console.error('Error fetching categories', err);
+        }
+      });
+    }
 
 }
