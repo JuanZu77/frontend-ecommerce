@@ -13,6 +13,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { CategoryListComponent } from './components/category/category-list/category-list.component';
 import { CategoryAddComponent } from './components/category/category-add/category-add.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DetailProductComponent } from './components/cart/detail-product/detail-product.component';
+import { HeaderUserComponent } from './components/header-user/header-user.component';
+import { SumaryOrderComponent } from './components/orders/sumary-order/sumary-order.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HeaderAdminComponent,
     ProductAddComponent,
     CategoryListComponent,
-    CategoryAddComponent
+    CategoryAddComponent,
+    DetailProductComponent,
+    HeaderUserComponent,
+    SumaryOrderComponent
   ],
   imports: [
     BrowserModule,
