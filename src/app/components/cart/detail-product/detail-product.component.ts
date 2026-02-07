@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 export class DetailProductComponent implements OnInit {
 
   id: number = 0;
+  productId: number = 0;
   name: string = '';
   description: string = '';
   price: number = 0;
@@ -45,6 +46,7 @@ export class DetailProductComponent implements OnInit {
       if (this.quantity > 0) {
         const item = new ItemCart(
           this.id,
+          this.productId,
           this.name,
           this.price,
           this.quantity
