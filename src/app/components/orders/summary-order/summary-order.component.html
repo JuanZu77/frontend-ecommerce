@@ -23,9 +23,9 @@
             <h5 class="card-title">
               DATOS ORDEN
             </h5>
-            <h6><strong> Nombre: </strong> </h6>
-            <h6><strong>Correo: </strong>  </h6>
-            <h6><strong> Dirección: </strong></h6>
+            <h6><strong> Nombre: </strong> {{firstName}} {{lastName}} </h6>
+            <h6><strong>Correo: </strong> {{email}} </h6>
+            <h6><strong> Dirección: </strong>{{address}}</h6>
 
             <h5 class="card-title">
               PRODUCTOS
@@ -40,13 +40,13 @@
                     <th>Eliminar</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody *ngFor="let item of items">
                   <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><button class="btn btn-danger">Quitar</button> </td>
+                    <td>{{item.productName}}</td>
+                    <td>{{item.price}}</td>
+                    <td>{{item.quantity}}</td>
+                    <td>{{item.getTotalPriceItem()}}</td>
+                    <td><button class="btn btn-danger" (click)="deleteItemCart(item.id)">Quitar</button> </td>
                   </tr>
                 </tbody>
               </table>
@@ -59,9 +59,9 @@
 
           <ul class="list-group">
             <li class="list-group-item">
-              <h5> Total: </h5>
+              <h5> Total: ${{totalCart}} </h5>
             </li>
-            <a class="btn btn-dark">Pagar con Paypal</a>
+            <a class="btn btn-dark" (click)="generateOrderProducts()">Pagar con Paypal</a>
           </ul>
         </div>
       </div>

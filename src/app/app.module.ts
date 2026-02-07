@@ -15,7 +15,7 @@ import { CategoryAddComponent } from './components/category/category-add/categor
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DetailProductComponent } from './components/cart/detail-product/detail-product.component';
 import { HeaderUserComponent } from './components/header-user/header-user.component';
-import { SumaryOrderComponent } from './components/orders/sumary-order/sumary-order.component';
+import { SummaryOrderComponent } from './components/orders/summary-order/summary-order.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,7 @@ import { SumaryOrderComponent } from './components/orders/sumary-order/sumary-or
     CategoryAddComponent,
     DetailProductComponent,
     HeaderUserComponent,
-    SumaryOrderComponent
+    SummaryOrderComponent
   ],
   imports: [
     BrowserModule,
