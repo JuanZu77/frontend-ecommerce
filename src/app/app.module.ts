@@ -16,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DetailProductComponent } from './components/cart/detail-product/detail-product.component';
 import { HeaderUserComponent } from './components/header-user/header-user.component';
 import { SummaryOrderComponent } from './components/orders/summary-order/summary-order.component';
+import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { SummaryOrderComponent } from './components/orders/summary-order/summary
     CategoryAddComponent,
     DetailProductComponent,
     HeaderUserComponent,
-    SummaryOrderComponent
+    SummaryOrderComponent,
+    PaymentSuccessComponent
   ],
   imports: [
     BrowserModule,

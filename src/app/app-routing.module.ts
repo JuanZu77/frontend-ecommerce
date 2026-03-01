@@ -7,6 +7,7 @@ import { CategoryListComponent } from './components/category/category-list/categ
 import { CategoryAddComponent } from './components/category/category-add/category-add.component';
 import { DetailProductComponent } from './components/cart/detail-product/detail-product.component';
 import { SummaryOrderComponent } from './components/orders/summary-order/summary-order.component';
+import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -18,6 +19,7 @@ const routes: Routes = [
   {path: 'admin/category/update/:id', component: CategoryAddComponent },
   {path: 'cart/detailproduct/:id', component: DetailProductComponent },
   {path: 'cart/summary', component: SummaryOrderComponent },
+  {path: 'payment/success', component: PaymentSuccessComponent },
 ];
 
 @NgModule({

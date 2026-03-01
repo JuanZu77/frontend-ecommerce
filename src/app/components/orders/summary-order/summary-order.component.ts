@@ -6,6 +6,9 @@ import { OrderProduct } from '../../../common/order-product';
 import { Order } from '../../../common/order';
 import { OrderState } from '../../../common/order-state';
 import { OrderService } from '../../../services/order.service';
+import { PaymentService } from '../../../services/payment.service';
+import { DataPayment } from '../../../common/data-payment';
+import { SessionStorageService } from '../../../services/session-storage.service';
 
 @Component({
   selector: 'app-summary-order',
@@ -25,7 +28,7 @@ export class SummaryOrderComponent implements OnInit{
   orderProducts: OrderProduct[] = [];
   userId: number = 1; //dinamico cuando implemente login 
 
-  constructor(private cartService: CartService, private userService: UserService, private orderService: OrderService) { }
+  constructor(private cartService: CartService, private userService: UserService, private orderService: OrderService, private paymentService:PaymentService, private sessionStorage:SessionStorageService) { }
 
       ngOnInit(): void {
         this.items = this.cartService.convertToListFromMap();
@@ -78,11 +81,29 @@ export class SummaryOrderComponent implements OnInit{
         this.orderService.createOrder(order).subscribe({
           next: (response) => {
             console.log('Orden creada:', response);
-            // agregar lógica adicional después de crear la orden(como mostrar un mensaje de éxito o redirigir a otra página).
+            // agregar lógica adicional (como mostrar un mensaje de éxito o redirigir a otra página).
+            
+            this.sessionStorage.setItem('order', response);
+
           },
           error: (error) => {
             console.error('Error al crear la orden:', error);
-            // agregar lógica para manejar errores o como mostrar un mensaje de error al usuario.
+            // agregar lógica para manejar errores 
+          }
+        });
+
+        //Redireccion PAYPAL
+        let urlPayment:string; //almacena url paypal autoriza
+        let dataPayment =  new DataPayment('PAYPAL', this.totalCart.toString(), 'USD', 'COMPRA');
+
+        this.paymentService.getUrlPaypalPayment(dataPayment).subscribe({
+          next:(data:any)=>{
+            urlPayment = data.url;
+            console.log('Respuesta Exitosa'); 
+            window.location.href = urlPayment; 
+          },
+          error: (error) => {
+            console.error('Error al obtener el pago:', error);
           }
         });
       }
