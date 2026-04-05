@@ -5,6 +5,7 @@ import {ToastrService } from 'ngx-toastr';
 import { Category } from '../../common/category';
 import { CategoryService } from '../../services/category.service';
 import { get } from 'http';
+import { SessionStorageService } from '../../services/session-storage.service';
 
 
 @Component({
@@ -22,13 +23,21 @@ export class ProductAddComponent implements OnInit {
   urlImage: string= "";
   userId: string= '1';
   categoryId: string= '1';
+  user : number = 0;
 
   selectedFile: File | null = null;
 
   //agregar categorias
   categories : Category[] = [];
 
-  constructor(private productService: ProductService, private categoryService:CategoryService, private router: Router, private activatedRoute: ActivatedRoute, private toastr:ToastrService) {}
+  constructor(
+    private productService: ProductService, 
+    private categoryService:CategoryService, 
+    private router: Router, 
+    private activatedRoute: ActivatedRoute, 
+    private toastr:ToastrService,
+    private sessionStorageService: SessionStorageService
+  ) {}
 
   ngOnInit(): void {
 
@@ -41,7 +50,8 @@ export class ProductAddComponent implements OnInit {
   this.id = id;              // <- CLAVE
   this.getProductById(id);   // <- CLAVE (si estás editando)
 
-
+  this.user = Number(this.sessionStorageService.getItem('user').id);
+  this.userId = this.user.toString();
 }
 
 

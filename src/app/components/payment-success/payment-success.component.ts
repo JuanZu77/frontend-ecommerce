@@ -39,6 +39,7 @@ export class PaymentSuccessComponent implements OnInit {
     next: (data) => {
       console.log('Orden confirmada:', data);
       this.sessionStorage.removeItem('order');
+      
     },
     error: (err) => console.error('Error actualizando orden:', err),
   });

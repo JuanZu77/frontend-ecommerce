@@ -17,6 +17,9 @@ import { DetailProductComponent } from './components/cart/detail-product/detail-
 import { HeaderUserComponent } from './components/header-user/header-user.component';
 import { SummaryOrderComponent } from './components/orders/summary-order/summary-order.component';
 import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
+import { RegistrationComponent } from './components/authentication/registration/registration.component';
+import { LoginComponent } from './components/authentication/login/login.component';
+import { LogoutComponent } from './components/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,10 @@ import { PaymentSuccessComponent } from './components/payment-success/payment-su
     DetailProductComponent,
     HeaderUserComponent,
     SummaryOrderComponent,
-    PaymentSuccessComponent
+    PaymentSuccessComponent,
+    RegistrationComponent,
+    LoginComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,

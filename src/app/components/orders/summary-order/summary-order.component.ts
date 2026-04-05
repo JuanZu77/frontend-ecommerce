@@ -26,15 +26,25 @@ export class SummaryOrderComponent implements OnInit{
   address : string = '';
 
   orderProducts: OrderProduct[] = [];
-  userId: number = 1; //dinamico cuando implemente login 
+  userId: number = 0;
 
-  constructor(private cartService: CartService, private userService: UserService, private orderService: OrderService, private paymentService:PaymentService, private sessionStorage:SessionStorageService) { }
+  constructor(
+    private cartService: CartService, 
+    private userService: UserService, 
+    private orderService: OrderService, 
+    private paymentService:PaymentService, 
+    private sessionStorage:SessionStorageService) { }
 
       ngOnInit(): void {
         this.items = this.cartService.convertToListFromMap();
         this.totalCart = this.cartService.totalCart();
+        
+        this.userId = this.sessionStorage.getItem('token').id; 
+        this.getUserById(this.userId); 
 
-        this.getUserById(1); //dinamico cuando implemente login
+        setTimeout(() => {
+          this.sessionStorage.removeItem('token');
+        }, 600000);
       }
 
       deleteItemCart(productId: number) {
@@ -81,14 +91,12 @@ export class SummaryOrderComponent implements OnInit{
         this.orderService.createOrder(order).subscribe({
           next: (response) => {
             console.log('Orden creada:', response);
-            // agregar lógica adicional (como mostrar un mensaje de éxito o redirigir a otra página).
             
             this.sessionStorage.setItem('order', response);
 
           },
           error: (error) => {
             console.error('Error al crear la orden:', error);
-            // agregar lógica para manejar errores 
           }
         });
 

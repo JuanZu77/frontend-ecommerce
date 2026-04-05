@@ -8,6 +8,10 @@ import { CategoryAddComponent } from './components/category/category-add/categor
 import { DetailProductComponent } from './components/cart/detail-product/detail-product.component';
 import { SummaryOrderComponent } from './components/orders/summary-order/summary-order.component';
 import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
+import { RegistrationComponent } from './components/authentication/registration/registration.component';
+import { LoginComponent } from './components/authentication/login/login.component';
+import { LogoutComponent } from './components/logout/logout.component';
+import { authGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -18,8 +22,11 @@ const routes: Routes = [
   {path: 'admin/category/add', component: CategoryAddComponent},
   {path: 'admin/category/update/:id', component: CategoryAddComponent },
   {path: 'cart/detailproduct/:id', component: DetailProductComponent },
-  {path: 'cart/summary', component: SummaryOrderComponent },
+  {path: 'cart/summary', component: SummaryOrderComponent, canActivate: [authGuard] },
   {path: 'payment/success', component: PaymentSuccessComponent },
+  {path: 'user/register', component: RegistrationComponent },
+  {path: 'user/login', component: LoginComponent },
+  {path: 'logout', component: LogoutComponent},
 ];
 
 @NgModule({

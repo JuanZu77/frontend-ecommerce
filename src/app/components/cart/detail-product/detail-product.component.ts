@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from '../../../services/product.service';
 import { ActivatedRoute } from '@angular/router';
 import { CartService } from '../../../services/cart.service';
 import { ItemCart } from '../../../common/item-cart';
 import { ToastrService } from 'ngx-toastr';
+import { HomeService } from '../../../services/home.service';
 
 @Component({
   selector: 'app-detail-product',
@@ -20,7 +20,7 @@ export class DetailProductComponent implements OnInit {
   urlImage: string = '';
   quantity: number = 0;
 
-    constructor(private productService: ProductService, private route: ActivatedRoute, private cartService:CartService, private toastr: ToastrService) { }
+    constructor(private homeService: HomeService, private route: ActivatedRoute, private cartService:CartService, private toastr: ToastrService) { }
 
     ngOnInit(): void {
       const idParam = this.route.snapshot.paramMap.get('id');
@@ -32,7 +32,7 @@ export class DetailProductComponent implements OnInit {
     }
 
     getProductById(id: number): void {
-      this.productService.getProductById(id).subscribe(product => {
+      this.homeService.getProductById(id).subscribe(product => {
         this.id = product.id;
         this.name = product.name;
         this.description = product.description;
