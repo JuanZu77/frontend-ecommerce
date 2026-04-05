@@ -7,20 +7,36 @@ import { SessionStorageService } from './session-storage.service';
 })
 export class HeaderService {
 
-  private token = '';
-  public headers:HttpHeaders = new HttpHeaders();
+  constructor(private sessionStorageService: SessionStorageService) {}
 
-  constructor(private sessionStorageService: SessionStorageService) { 
+  getHeaders(): HttpHeaders {
+    const tokenData = this.sessionStorageService.getItem('token');
 
-  
-    if(this.sessionStorageService.getItem('token') != null) {
-    
-      this.token = this.sessionStorageService.getItem('token').token;
-      this.headers = new HttpHeaders({
-       //  'Content-Type': 'application/json',
-      'Authorization': `${this.token}`
-    });
+    if (!tokenData) {
+      return new HttpHeaders({
+        'Content-Type': 'application/json'
+      });
     }
+
+    const token = tokenData.token ? tokenData.token : tokenData;
+
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    });
   }
 
+  getHeadersForFormData(): HttpHeaders {
+    const tokenData = this.sessionStorageService.getItem('token');
+
+    if (!tokenData) {
+      return new HttpHeaders();
+    }
+
+    const token = tokenData.token ? tokenData.token : tokenData;
+
+    return new HttpHeaders({
+      'Authorization': token
+    });
+  }
 }

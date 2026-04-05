@@ -24,8 +24,11 @@ export class CategoryListComponent implements OnInit {
           this.categories = data;
         },
         error: (error: any) => {
-          this.toastr.error('Error fetching categories', 'Error');
-          console.error('There was an error!', error);
+          //this.toastr.error('Error fetching categories', 'Error');
+           if (error.status !== 401 && error.status !== 403) {
+            console.log('There was an error!', error);
+           }
+          
         }
       });
     }

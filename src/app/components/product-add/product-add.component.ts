@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {ToastrService } from 'ngx-toastr';
 import { Category } from '../../common/category';
 import { CategoryService } from '../../services/category.service';
-import { get } from 'http';
 import { SessionStorageService } from '../../services/session-storage.service';
 
 
@@ -40,24 +39,25 @@ export class ProductAddComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+  this.getCategories();
 
-  this.getCategories();  
+  const userData = this.sessionStorageService.getItem('user');
+  if (userData && userData.id) {
+    this.user = Number(userData.id);
+    this.userId = this.user.toString();
+  }
+
   const idParam = this.activatedRoute.snapshot.paramMap.get('id');
   const id = Number(idParam);
 
-  if (!idParam || Number.isNaN(id)) return;
-
-  this.id = id;              // <- CLAVE
-  this.getProductById(id);   // <- CLAVE (si estás editando)
-
-  this.user = Number(this.sessionStorageService.getItem('user').id);
-  this.userId = this.user.toString();
+  if (idParam && !Number.isNaN(id)) {
+    this.id = id;
+    this.getProductById(id);
+  }
 }
 
 
-
  addProduct(): void {
-
   const formData = new FormData();
   formData.append('code', this.code ?? '');
   formData.append('name', this.name ?? '');
@@ -79,7 +79,9 @@ export class ProductAddComponent implements OnInit {
         console.log('Producto actualizado:', res);
         this.router.navigate(['/admin/product']);
       },
-      error: (err) => console.error('Error al actualizar:', err),
+      error: (error) =>  {if (error.status !== 401 && error.status !== 403) {
+        console.error('Error al actualizar:', error);
+       }}
     });
   } else {
     // CREATE -> multipart/form-data
@@ -98,7 +100,9 @@ export class ProductAddComponent implements OnInit {
         this.router.navigate(['/admin/product']);
         
       },
-      error: (err) => console.error('Error al crear:', err),
+      error: (error) => {if (error.status !== 401 && error.status !== 403) {
+        console.error('Error al actualizar:', error);
+       }}
     });
   }
 } //addProduct
@@ -120,7 +124,9 @@ getProductById(id: number): void {
       this.userId = String(product.userId);
       this.categoryId = String(product.categoryId);
     },
-    error: (err) => console.error('Error cargando producto', err)
+    error: (error) => {if (error.status !== 401 && error.status !== 403) {
+        console.error('Error al actualizar:', error);
+       }}
   });
  }
 
@@ -139,8 +145,10 @@ getProductById(id: number): void {
         next: (data) => {
           this.categories = data;
         },
-        error: (err) => {
-          console.error('Error fetching categories', err);
+        error: (error) => {
+          if (error.status !== 401 && error.status !== 403) {
+            console.log('There was an error!', error);
+           }
         }
       });
     }

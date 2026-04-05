@@ -14,23 +14,23 @@ export class ProductService {
   constructor(private httpClient: HttpClient, private headerService: HeaderService) { }
 
   getProducts(): Observable<Product[]> {
-    return this.httpClient.get<Product[]>(this.apiUrl, { headers: this.headerService.headers });
+    return this.httpClient.get<Product[]>(this.apiUrl, { headers: this.headerService.getHeaders() });
   }
 
   createProduct(formData: FormData) {
-  return this.httpClient.post<Product>(this.apiUrl, formData, { headers: this.headerService.headers });
+  return this.httpClient.post<Product>(this.apiUrl, formData, { headers: this.headerService.getHeadersForFormData() });
 }
 
   deleteProduct(id: number):Observable<any> {
-    return this.httpClient.delete(`${this.apiUrl}/${id}`, { headers: this.headerService.headers });
+    return this.httpClient.delete(`${this.apiUrl}/${id}`, { headers: this.headerService.getHeaders() });
   }
 
   getProductById(id: number):Observable<Product> {
-    return this.httpClient.get<Product>(`${this.apiUrl}/${id}`, { headers: this.headerService.headers });
+    return this.httpClient.get<Product>(`${this.apiUrl}/${id}`, { headers: this.headerService.getHeaders() });
   }
 
   updateProduct(id: number, formData: FormData) {
-  return this.httpClient.put<Product>(`${this.apiUrl}/${id}`, formData, { headers: this.headerService.headers });
+  return this.httpClient.put<Product>(`${this.apiUrl}/${id}`, formData, { headers: this.headerService.getHeadersForFormData() });
   }
 
 

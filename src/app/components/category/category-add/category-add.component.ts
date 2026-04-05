@@ -44,7 +44,7 @@ export class CategoryAddComponent implements OnInit {
     this.categoryService.updateCategory(this.id, payload).subscribe({
       next: () => {
         this.toastr.success('Categoría actualizada correctamente', 'OK');
-        this.router.navigate(['/admin/category']);
+        this.router.navigate(['admin/category']);
       },
       error: (err) => {
         this.toastr.error('Error al actualizar categoría', 'Error');
@@ -55,7 +55,7 @@ export class CategoryAddComponent implements OnInit {
     this.categoryService.createCategory(payload).subscribe({
       next: () => {
         this.toastr.success('Categoría registrada correctamente', 'OK');
-        this.router.navigate(['/admin/category']);
+        this.router.navigate(['admin/category']);
       },
       error: (err) => {
         this.toastr.error('Error al registrar categoría', 'Error');

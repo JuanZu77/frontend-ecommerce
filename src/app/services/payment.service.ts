@@ -16,7 +16,7 @@ export class PaymentService {
 
   getUrlPaypalPayment(dataPayment:DataPayment):Observable<UrlPaymentResponse>{
 
-    return this.http.post<UrlPaymentResponse>(this.apiUrl, dataPayment, { headers: this.headerService.headers });
+    return this.http.post<UrlPaymentResponse>(this.apiUrl, dataPayment, { headers: this.headerService.getHeaders() });
 
   }
 }

@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 })
 export class ProductListComponent implements OnInit {
 
-  products: Product[] | undefined;
+  products: Product[] = [];
 
   constructor(private productService: ProductService) { }
 
@@ -19,44 +19,51 @@ export class ProductListComponent implements OnInit {
   }
 
   listProducts(): void {
-    this.productService.getProducts().subscribe(
-      data => {
+    this.productService.getProducts().subscribe({
+      next: (data: Product[]) => {
         this.products = data;
-        //console.log('Products fetched successfully:', data);
+      },
+      error: (error) => {
+        if (error.status !== 401 && error.status !== 403) {
+          console.error('Error al obtener productos:', error);
+        }
       }
-    );
+    });
   }
 
   deleteProduct(productId: number): void {
+    Swal.fire({
+      title: '¿Está seguro que quiere eliminar el registro?',
+      text: '',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.productService.deleteProduct(productId).subscribe({
+          next: () => {
+            this.listProducts();
 
-  Swal.fire({
-  title: "Está seguro que quiere eliminar el registro?",
-  text: "",
-  icon: "warning",
-  showCancelButton: true,
-  confirmButtonColor: "#3085d6",
-  cancelButtonColor: "#d33",
-  confirmButtonText: "Eliminar", 
-  cancelButtonText: "Cancelar", 
-}).then((result) => {
-  if (result.isConfirmed) {
+            Swal.fire({
+              title: 'Producto',
+              text: 'Producto eliminado.',
+              icon: 'success'
+            });
+          },
+          error: (error) => {
+            console.error('Error al eliminar producto:', error);
 
-        this.productService.deleteProduct(productId).subscribe(
-          () => {
-            console.log(`Product with ID ${productId} deleted successfully.`);
-            this.listProducts(); // Refresh the product list after deletion
+            Swal.fire({
+              title: 'Error',
+              text: 'No se pudo eliminar el producto.',
+              icon: 'error'
+            });
           }
-        );  
-
-        Swal.fire({
-          title: "Producto",
-          text: "Producto Eliminado.",
-          icon: "success"
         });
-       }
-     });
-
-    
+      }
+    });
   }
-
 }
